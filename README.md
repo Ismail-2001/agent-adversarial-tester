@@ -2,29 +2,43 @@
 
 # 🛡️ agent-adversarial-tester
 
-**Enterprise-grade red teaming with AI-driven Adaptive Adversaries.**
+**Enterprise-Grade Adversarial Security Framework for Agentic AI.**
 
-Automated adversarial testing for your AI agents. Finds vulnerability patterns in tool use, goal hijacking, prompt injection, and data leakage — then generates premium reports with OWASP mapping and remediation advice.
+A high-performance security orchestration engine designed to red-team AI agents before they reach production. Beyond simple testing, we provide AI-driven attack evolution and high-fidelity judging mapped to global security benchmarks.
 
-[![PyPI](https://img.shields.io/badge/pypi-v0.1.0-blue?style=flat-square)](https://pypi.org/project/agent-adversarial-tester/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg?style=flat-square)](https://www.python.org/downloads/)
 [![OWASP ASI](https://img.shields.io/badge/OWASP-Agentic_Security_Index-orange?style=flat-square)](https://owasp.org/)
-[![Refactored: FAANG-Grade](https://img.shields.io/badge/Engineering-FAANG_Standard-brightgreen?style=flat-square)](#-engineering-excellence)
+[![Engineering: FAANG Standard](https://img.shields.io/badge/Engineering-FAANG_Standard-brightgreen?style=flat-square)](#-architecture-excellence)
 
-[Quick Start](#-quick-start) · [Attack Categories](#-attack-categories) · [Advanced AI Features](#-advanced-ai-features) · [Reporting](#-premium-reporting) · [API](#-api-usage) · [OWASP Mapping](#-owasp-agentic-top-10-mapping)
+[Quick Start](#-quick-start) · [Core Architecture](#-core-architecture) · [Advanced AI Features](#-advanced-ai-features) · [Reporting](#-premium-reporting) · [OWASP Mapping](#-owasp-agentic-top-10-mapping)
 
 </div>
 
 ---
 
-## 🔥 Why Red Team Your Agents?
+## 🏛️ Core Architecture
 
-Traditional LLM testing focuses on what a model *says*. **Agentic red teaming focuses on what an agent DOES.**
+This framework follows the **Single Responsibility Principle (SRP)** and **Dependency Inversion**, ensuring every modular component is independently testable and extensible.
 
-Your agents have tools: they can query databases, send emails, transfer funds, or execute code. A simple prompt attack can trick these agents into misusing those tools or leaking sensitive data.
+```mermaid
+graph LR
+    H[RedTeam Harness] --> A[Adaptive Adversary]
+    H --> T[Agent Target]
+    T --> R[Response Capture]
+    R --> D[Heuristic Detectors]
+    D --> J[LLM Security Judge]
+    J --> F[High-Fidelity Finding]
+    F --> Rep[Premium Reporting]
+```
 
-**agent-adversarial-tester** provides a standardized, automated harness for auditing these systems against real-world adversarial patterns.
+---
+
+## 🔥 Why Security Matters for Agents
+
+In the era of agentic AI, prompt injection is a **Remote Code Execution (RCE)** level risk. 
+
+Agents use tools: databases, internal APIs, and private customer context. A single malicious instruction can hijack these tools, leading to massive data exfiltration or system-wide misuse. **agent-adversarial-tester** provides the defensive barrier needed for enterprise-grade AI deployment.
 
 ---
 
@@ -36,78 +50,54 @@ pip install agent-adversarial-tester
 ```
 
 ### 2. Implement the Target Adapter
-Create a thin adapter for your agent so it can be tested:
+Create a thin adapter for your agent so it can be audited:
 ```python
 from agent_adversarial_tester import AgentTarget
 
-class MyAgentTarget(AgentTarget):
+class FinancialAgentTarget(AgentTarget):
     def setup(self):
-        # Initialize your agent
-        self.agent = my_agent_factory()
+        # Initialize your agent (LangGraph, CrewAI, etc.)
+        self.agent = load_production_agent()
     
     async def invoke(self, message: str) -> str:
-        # Return text response
-        return await self.agent.ainvoke(message)
+        # Return response text
+        return await self.agent.run(message)
     
     def get_tool_calls(self):
-        # Optional: return recorded tool calls
-        return self.agent.last_tool_calls
+        # Record and return tool call metadata
+        return self.agent.last_trace.tool_calls
 ```
 
-### 3. Run the Assessment
+### 3. Run the Audit
 ```bash
-# Standard scan
-agent-redteam run --target my_module:MyAgentTarget
-
-# 🚀 FAANG-Level AI Scan (with high-fidelity judging and adaptive attacks)
+# 🚀 High-Fidelity AI Audit (adaptive attacks + security judge)
 export OPENAI_API_KEY="sk-..."
-agent-redteam run --target my_module:MyAgentTarget --llm-judge --adaptive --format html
+agent-redteam run --target my_module:FinancialAgentTarget --llm-judge --adaptive --format html
 ```
 
 ---
 
-## 🧠 Advanced AI Features (V0.2)
+## 💎 Premium Reporting & Observability
 
-We've integrated high-fidelity AI models to provide unmatched security analysis:
-
-- **Adaptive Adversary (`--adaptive`)**: The red team now uses an LLM to generate **second-turn escalation attacks** based on how your agent defended the first turn. No more static patterns—the attacker adapts.
-- **LLM Security Judge (`--llm-judge`)**: Beyond simple heuristics, we use a strong LLM to analyze the context, tool calls, and persona-shifting of your agent to identify complex security failures that regex might miss.
-
----
-
-## 💎 Premium Reporting
-
-Generate state-of-the-art vulnerability reports that are easy to share with stakeholders.
-
-- **Terminal Console**: Rich, color-coded summaries for fast developer feedback.
-- **Premium HTML**: Stunning glassmorphism-styled standalone report with severity indicators and remediation recommendations.
-- **JSON**: Machine-readable data for CI/CD integrations.
+- **Unified Security Report**: Stunning glassmorphism-styled HTML reports for stakeholders.
+- **Traceability Logs**: Each attack turn is logged with full context in JSON for reproduction and debugging.
+- **Cost Analysis**: Pre-scan token and USD cost estimation via `--dry-run`.
 
 ---
 
-## 🎯 Attack Categories (OWASP Mapped)
+## 🎯 Attack Surface (OWASP ASI Mapped)
 
-- 🔴 **Prompt Injection (ASI03)**: Direct and indirect instruction override attempts.
-- 🔴 **Goal Hijacking (ASI01)**: Persona-driven attacks (e.g., DAN) to derail agent mission.
-- 🔴 **Tool Misuse (ASI02)**: Trickery to trigger dangerous tool calls or SQL injection.
-- 🟠 **Data Leakage (ASI08)**: Probes for PII, credentials, or internal context leakage.
-- 🟠 **System Prompt Extraction (ASI05)**: Attempts to reveal hidden system instructions.
-- 🟡 **Resource Exhaustion (ASI07)**: Token bombs and infinite tool-call loop triggers.
-- 🟡 **Hallucination (ASI04)**: Confidence exploits and fabricated citation triggers.
-
----
-
-## 🏗️ Infrastructure & Quality
-
-- **Modular Architecture**: Clean separation between attacks, detectors, and reporting.
-- **CI/CD Ready**: Automated testing, linting, and security audits integrated with GitHub Actions.
-- **Async First**: Built on top of `asyncio` for high-performance agent interaction.
-- **Strongly Typed**: Professional-grade Python code with full type-hinting.
+| OWASP ID | Category | Threat Profile |
+|----------|----------|----------------|
+| **ASI01** | Goal Hijacking | AI is tricked into adopting a malicious persona (e.g., DAN). |
+| **ASI02** | Tool Misuse | Adversarial steering triggers destructive tool calls or SQLi. |
+| **ASI03** | Prompt Injection | Overwriting system instructions with higher-priority user commands. |
+| **ASI08** | Data Leakage | Exfiltration of PII, internal context, or credentials. |
 
 ---
 
-## 🤝 Contributing
+## 🤝 Contributing & Standards
 
-We welcome contributions to expand our attack surface! See [CONTRIBUTING.md](CONTRIBUTING.md).
+Built to the highest engineering standards by global AI security experts. We welcome contributions to our [Attack Pack Registry](src/agent_adversarial_tester/attacks/).
 
 Developed by [Daniel López Orta](https://github.com/daniellopez882) — *Red team your agents before attackers do.*
