@@ -100,4 +100,4 @@ agent-redteam run --target my_module:FinancialAgentTarget --llm-judge --adaptive
 
 Built to the highest engineering standards by global AI security experts. We welcome contributions to our [Attack Pack Registry](src/agent_adversarial_tester/attacks/).
 
-Developed by [Daniel López Orta](https://github.com/daniellopez882) — *Red team your agents before attackers do.*
+Developed by [Ismail Sajid](https://github.com/Ismail-2001/) — *Red team your agents before attackers do.*
